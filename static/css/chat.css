@@ -2,16 +2,40 @@
 	border-radius:3px;
 	border: 1px solid black;
 	background-color: #efefef;
+	font-family: Tahoma, Helvetica, Arial;
+	display: flex;
+	flex-flow: column;
+	height: 600px;
+}
+.chat>.history {
+	flex: 1 1 auto;
+	overflow-y: scroll;
+}
+.chat>.history>div {
+	border: 2px dashed grey;
+	border-radius: 3px;
+	margin: 5px;
+	padding: 3px;
 }
 
-.chat .history .me {
-	border: 1px dashed grey;
-	border-radius: 3px;
+.chat>.history>.me {
 	background-color: lightblue;
 }
 
-.chat .history .other {
-	border: 1px dashed grey;
-	border-radius: 3px;
+.chat>.history>.other {
 	background-color: lightyellow;
+}
+.chat>.history .username {
+	font-weight: bold;
+}
+.chat>form {
+	flex: 0 1 auto;
+	display: flex;
+	flex-flow: row;
+}
+chat>form>button {
+	flex: 0 1 auto;
+}
+.chat>form>input{
+	flex: 1 1 auto;
 }

@@ -8,8 +8,20 @@
 	<h1>Dubiety</h1>
 	<div class='chat'></div>
 	<script>
-		$('.chat').Chat("Jeff Jacobs");
+		var ws = new WebSocket("ws://localhost:3000/ws");
+		var chat = $('.chat');
+		chat.Chat("Jeff Jacobs", function(msg){
+			console.log("I've been triggered!!");
+			ws.send(msg);
+		});
+		ws.onmessage = function(evt) {
+			chat.Chat.receiveMsg(evt.data, "Anton");
+		};
+
+		ws.onopen = function()
+		{
+			ws.send("Help! I've lost contact with my ground control!!!")
+		};
 	</script>
 </body>
 </html>
-
