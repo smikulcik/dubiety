@@ -1,0 +1,17 @@
+.chat {
+	border-radius:3px;
+	border: 1px solid black;
+	background-color: #efefef;
+}
+
+.chat .history .me {
+	border: 1px dashed grey;
+	border-radius: 3px;
+	background-color: lightblue;
+}
+
+.chat .history .other {
+	border: 1px dashed grey;
+	border-radius: 3px;
+	background-color: lightyellow;
+}
