@@ -1,0 +1,32 @@
+{
+  "name": "dubiety",
+  "version": "1.0.0",
+  "description": "Game to Build Trust and Help People",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smikulcik/dubiety.git"
+  },
+  "keywords": [
+    "Video",
+    "Game",
+    "Trust",
+    "AI",
+    "Space",
+    "Survival"
+  ],
+  "author": "Simon Mikulcik <smikulcik@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/smikulcik/dubiety/issues"
+  },
+  "homepage": "https://github.com/smikulcik/dubiety#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "handlebars": "^4.0.5"
+  }
+}
