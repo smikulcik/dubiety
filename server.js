@@ -1,11 +1,12 @@
 var express = require('express');
 var handlebars = require('handlebars'),
-fs = require('fs');
+fs = require('fs'),
+process = require('process');
 
 var app = express();
 var expressWs = require('express-ws')(app);
 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 
 var antons = {};
 
