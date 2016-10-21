@@ -8,7 +8,18 @@
 	<h1>Dubiety</h1>
 	<div class='chat'></div>
 	<script>
-		var ws = new WebSocket("ws://localhost:3000/ws");
+		var getwsurl = function(path){
+			var loc = window.location, new_uri;
+			if (loc.protocol === "https:") {
+				new_uri = "wss:";
+			} else {
+				new_uri = "ws:";
+			}
+			new_uri += "//" + loc.host;
+			new_uri += loc.pathname + path;
+			return new_uri; 	
+		}
+		var ws = new WebSocket(getwsurl("ws"));
 		var chat = $('.chat');
 		chat.Chat("Jeff Jacobs", function(msg){
 			console.log("I've been triggered!!");
