@@ -7,6 +7,12 @@
 <body>
 	<h1>Dubiety</h1>
 	<div class='chat'></div>
+	<form id=analyzer>
+		<h3>Sentiment Analysis</h3>
+		<input />
+		<button type=submit id='analyzeBtn'>Analyze</button>
+		<div id='analyzeOutput'></div>
+	</form>
 	<script>
 		var getwsurl = function(path){
 			var loc = window.location, new_uri;
@@ -33,6 +39,14 @@
 		{
 			ws.send("Help! I've lost contact with my ground control!!!")
 		};
+		
+		$('#analyzer button').click(function(evt){
+			evt.preventDefault();
+			var input = $('#analyzer input').val();
+			$.post('./analyze', {text: input}, function(res){
+				$('#analyzer div').text(res);
+			});
+		});
 	</script>
 </body>
 </html>
