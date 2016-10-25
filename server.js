@@ -4,32 +4,37 @@ var handlebars = require('handlebars'),
 fs = require('fs'),
 process = require('process');
 var sentiment = require('./sentiment.js');
+var sessions = require('./session.js');
 
 var app = express();
 var expressWs = require('express-ws')(app);
 
 var PORT = process.env.PORT || 3000;
 
-var antons = {};
-
-var Anton = function(ws){
-	this.name = 'Anton';
-	this.ws = ws;
-};
-Anton.prototype.handleMessage = function(message){
-	this.ws.send(message.toUpperCase());
-};
-
 app.use(express.static('static'));
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
-})); 
+}));
 
 app.ws('/ws', function(ws, req) {
-	var anton = new Anton(ws);
-	ws.on('message', function(msg) {
-		anton.handleMessage(msg);
+	ws.on('message', function(jsonMsg) {
+		var msg;
+		try {
+			msg = JSON.parse(jsonMsg);
+			if(msg.hasOwnProperty('token')){
+				var session = sessions.getSession(msg.token, ws);
+				session.connect(ws);
+				if(msg.hasOwnProperty('msg'))
+					session.anton.handleMessage(msg.msg);
+			} else {
+				console.log("generating token");
+				ws.send(JSON.stringify({'token': sessions.getToken()}));
+			}
+		} catch (e) {
+			// do nothing
+			throw e;
+		}
 	});
 });
 
@@ -37,7 +42,6 @@ app.get('/', function(req, res) {
 	fs.readFile('./html/index.html', 'utf-8', function(err, src){
 		var template = handlebars.compile(src);
 		var html = template({});
-		console.log(html);
 		res.send(html);
 	});
 });
@@ -68,7 +72,7 @@ var Neuron = synaptic.Neuron,
     Network = synaptic.Network,
     Trainer = synaptic.Trainer,
     Architect = synaptic.Architect;
-	
+
 function Perceptron(input, hidden, output)
 {
     // create the layers

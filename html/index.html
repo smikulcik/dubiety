@@ -23,23 +23,62 @@
 			}
 			new_uri += "//" + loc.host;
 			new_uri += loc.pathname + path;
-			return new_uri; 	
+			return new_uri;
 		}
-		var ws = new WebSocket(getwsurl("ws"));
+
+		var Session = function(){
+			this.ws;
+			this.token;
+			this.reconnect();
+		};
+		Session.prototype.send = function(message, errback){
+			if(this.token !== undefined) {
+				this.ws.send(JSON.stringify({'token': this.token, 'msg': message}));
+			} else {
+				if(errback !== undefined)
+					errback();
+			}
+		};
+		Session.prototype.reconnect = function(){
+			var that = this;
+			console.log("Opening connection");
+			this.ws = new WebSocket(getwsurl("ws"));
+
+			this.ws.onmessage = function(evt) {
+				var json = JSON.parse(evt.data);
+				if(json.hasOwnProperty('token') && that.token !== json.token) {
+					that.token = json.token;
+					console.log("setting token");
+					this.send(JSON.stringify({'token': that.token}));
+				}
+				if(json.hasOwnProperty('msg')){
+					chat.Chat.receiveMsg(json.msg, "Anton");
+				}
+			};
+
+			this.ws.onopen = function()
+			{
+				console.log("Connected");
+				// request token
+				if(that.token === undefined)
+					this.send("{}");
+			};
+
+			this.ws.onclose = function()
+			{
+				console.log("Disconnected, attepting to reconnect");
+				setTimeout(function(){that.reconnect()}, 50);
+			}
+
+		};
+
+		var session = new Session();
+
 		var chat = $('.chat');
 		chat.Chat("Jeff Jacobs", function(msg){
 			console.log("I've been triggered!!");
-			ws.send(msg);
+			session.send(msg);
 		});
-		ws.onmessage = function(evt) {
-			chat.Chat.receiveMsg(evt.data, "Anton");
-		};
-
-		ws.onopen = function()
-		{
-			ws.send("Help! I've lost contact with my ground control!!!")
-		};
-		
 		$('#analyzer button').click(function(evt){
 			evt.preventDefault();
 			var input = $('#analyzer input').val();
