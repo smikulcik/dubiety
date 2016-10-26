@@ -76,7 +76,6 @@
 
 		var chat = $('.chat');
 		chat.Chat("Jeff Jacobs", function(msg){
-			console.log("I've been triggered!!");
 			session.send(msg);
 		});
 		$('#analyzer button').click(function(evt){

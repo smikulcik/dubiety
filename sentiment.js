@@ -9,7 +9,9 @@ var credentials = {
 var tonecredentials = {
 	"url": "https://gateway.watsonplatform.net/tone-analyzer/api",
 	"password": "fe3c4rau8zpM",
-	"username": "15c2c53a-0138-4d0a-aa1c-96db9cbc1bc5"
+	"username": "15c2c53a-0138-4d0a-aa1c-96db9cbc1bc5",
+  version: 'v3',
+  version_date: '2016-05-19'
 };
 
 var AlchemyLanguageV1 = require('watson-developer-cloud/alchemy-language/v1');
@@ -17,7 +19,7 @@ var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 
 var alchemy_language = new AlchemyLanguageV1(credentials);
 
-//var tone_analyzer = new ToneAnalyzerV3(tonecredentials);
+var tone_analyzer = new ToneAnalyzerV3(tonecredentials);
 
 exports.getSentiment = function(text, callback, errback) {
 	var params = {
@@ -37,7 +39,7 @@ exports.getSentiment = function(text, callback, errback) {
 		}
 	});
 };
-/*
+
 exports.getTone = function(text, callback, errback) {
 	var params = {
 	  text: text
@@ -55,4 +57,4 @@ exports.getTone = function(text, callback, errback) {
 				console.log("I have no callback!! " + callback);
 		}
 	});
-};*/
+};
