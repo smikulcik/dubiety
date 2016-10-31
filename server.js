@@ -61,6 +61,10 @@ app.post('/analyze', function(req, res) {
 });
 
 
+app.get('/sessions', function(req, res) {
+	res.send(JSON.stringify(sessions.getSessions()));
+});
+
 app.listen(PORT, function() {
 	console.log('Started Listening!');
 });

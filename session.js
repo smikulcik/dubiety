@@ -29,6 +29,16 @@ Session.prototype.send = function(message, errback){
   this.ws.send(JSON.stringify({'token': this.token, 'msg': message}));
 };
 
+Session.prototype.toJSON = function(){
+  return {
+    "token": this.token,
+    "ws" : {
+      "state" : this.ws.readyState
+    },
+    "anton" : this.anton
+  }
+};
+
 var nextToken = 1;
 var sessions = {};
 
@@ -47,4 +57,7 @@ exports.getSession = function(token, ws){
     sessions[token] = s;
     return s;
   }
+};
+exports.getSessions = function(){
+  return sessions;
 };

@@ -32,8 +32,13 @@ exports.getSentiment = function(text, callback, errback) {
 			else
 				console.log("I have no errback" + errback);
 		}else{
-			if(callback !== undefined)
-				callback(response);
+			if(callback !== undefined){
+        if(response.docSentiment.hasOwnProperty("score")){
+    				callback(parseFloat(response.docSentiment.score));
+        } else {
+          callback(0.00);
+        }
+      }
 			else
 				console.log("I have no callback!! " + callback);
 		}
