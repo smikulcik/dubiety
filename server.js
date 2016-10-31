@@ -62,7 +62,7 @@ app.post('/analyze', function(req, res) {
 
 
 app.get('/sessions', function(req, res) {
-	res.send(JSON.stringify(sessions.getSessions()));
+	res.send("<pre>" + JSON.stringify(sessions.getSessions(), null, 4) + "</pre>");
 });
 
 app.listen(PORT, function() {

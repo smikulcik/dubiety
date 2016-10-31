@@ -21,22 +21,22 @@ var alchemy_language = new AlchemyLanguageV1(credentials);
 
 var tone_analyzer = new ToneAnalyzerV3(tonecredentials);
 
-exports.getSentiment = function(text, callback, errback) {
+exports.getSentiment = function(text, callback) {
 	var params = {
 	  text: text
 	};
 	alchemy_language.sentiment(params, function (err, response) {
 		if (err){
-			if(errback !== undefined)
-				errback(err);
+			if(callback !== undefined)
+				callback(err, null);
 			else
 				console.log("I have no errback" + errback);
 		}else{
 			if(callback !== undefined){
         if(response.docSentiment.hasOwnProperty("score")){
-    				callback(parseFloat(response.docSentiment.score));
+    				callback(null, parseFloat(response.docSentiment.score));
         } else {
-          callback(0.00);
+          callback(null, 0.00);
         }
       }
 			else
@@ -45,19 +45,34 @@ exports.getSentiment = function(text, callback, errback) {
 	});
 };
 
-exports.getTone = function(text, callback, errback) {
+exports.getTone = function(text, callback) {
 	var params = {
 	  text: text
 	};
 	tone_analyzer.tone(params, function (err, response) {
 		if (err){
-			if(errback !== undefined)
-				errback(err);
+			if(callback !== undefined)
+				callback(err, null);
 			else
 				console.log("I have no errback" + errback);
 		}else{
-			if(callback !== undefined)
-				callback(response);
+			if(callback !== undefined){
+        var tones = {};
+        for(var category_id in response.document_tone.tone_categories){
+          for(var tone_id in response.document_tone.tone_categories[category_id].tones){
+            var tone = response.document_tone.tone_categories[category_id].tones[tone_id];
+            tones[tone.tone_id] = tone.score;
+          }
+        }
+				callback(null, {
+          "anger" : tones['anger'],
+          "disgust" : tones['disgust'],
+          "fear" : tones['fear'],
+          "joy" : tones['joy'],
+          "sadness" : tones['sadness'],
+          "confident" : tones['confident']
+        });
+      }
 			else
 				console.log("I have no callback!! " + callback);
 		}
