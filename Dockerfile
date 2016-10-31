@@ -1,4 +1,4 @@
-FROM nodesource/node:4.4.6
+FROM nodesource/node:4.4.3
 
 ADD package.json package.json
 RUN npm install
