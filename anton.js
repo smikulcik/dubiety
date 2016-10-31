@@ -53,6 +53,8 @@ var Anton = function(session){
   this.spirits = .7; // between -1 and 1
   this.trust = .1;
 
+  this.stage = 1;
+
   // nn properties
   this.brain = new Architect.Perceptron(15,5,2);
   this.train();
@@ -189,6 +191,12 @@ Anton.prototype.handleMessage = function(message, callback){
       that.session.send(expression);
       that.pastConversation.push([message, sentiment, expression]);
     }
+
+    if(that.trust > 0.9 && that.stage == 1){
+      that.stage == 2;
+      that.session.send("Ok, here is the passcode to my sensors: XIETSG")
+    }
+
     if(callback != undefined)
       callback();
   });
