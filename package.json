@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Game to Build Trust and Help People",
   "engines": {
-    "node": "4.4.6"
+    "node": "4.4.3"
   },
   "main": "server.js",
   "scripts": {
