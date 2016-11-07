@@ -1,16 +1,16 @@
 @font-face {
-	font-family: hellovetica;
-	src: url('../fonts/hellovetica.ttf');
+	font-family: pixelOperator;
+	src: url('../fonts/PixelOperator.ttf');
 }
 
 body {
-  font-family: hellovetica, Helvetica, sans-serif;
+  font-family: pixelOperator, Helvetica, sans-serif;
 	background-color: #222;
 }
 
 .title {
   color:white;
-  font-size:20px;
+  font-size:40px;
 }
 
 .game {
@@ -31,12 +31,14 @@ body {
 }
 .dashboard>.loginPrompt {
   text-align:center;
+	font-size: 24px;
 }
 .dashboard>.dashboardDisplay {
   height:600px;
   width: 400px;
   background-color: #e5e5e5;
   padding: 5px;
+	font-size: 20px;
 }
 .dashboard .status .ok {
   color: green;
@@ -59,8 +61,8 @@ body {
 button {
 	height: 30px;
 	margin:0px;
-	font-family: hellovetica, Helvetica, Arial;
-	font-size:12px;
+	font-family: pixelOperator, Helvetica, Arial;
+	font-size:24px;
 	background-color: #e5e5e5;
 }
 button:focus{
@@ -70,8 +72,8 @@ input{
 	height: 30px;
   width:150px;
 	margin:0px;
-	font-family: hellovetica, Helvetica, Arial;
-	font-size:12px;
+	font-family: pixelOperator, Helvetica, Arial;
+	font-size:24px;
 	background-color: #e5e5e5;
 	border: none;
 	padding:3px;

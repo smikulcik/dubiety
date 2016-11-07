@@ -26,7 +26,32 @@ Session.prototype.connect = function(ws) {
 }
 
 Session.prototype.send = function(message, errback){
-  this.ws.send(JSON.stringify({'token': this.token, 'msg': message}));
+  var that = this;
+  this.ws.send(JSON.stringify({
+    'token': this.token,
+    'msg': message,
+    'state': that.getState()
+  }));
+};
+
+Session.prototype.sendState = function(errback){
+  this.ws.send(JSON.stringify({
+    'token': this.token,
+    'state': this.getState()
+  }));
+};
+
+Session.prototype.getState = function(){
+  return {
+    'anton': this.anton,
+    'ship': {
+      'ventilation': {
+        'state': "failing",
+        "status": "Air Leak Detected",
+        "action": "Engage the Ventilation System Lockdown Override"
+      }
+    }
+  }
 };
 
 Session.prototype.toJSON = function(){

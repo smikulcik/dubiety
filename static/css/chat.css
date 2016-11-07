@@ -1,16 +1,16 @@
 @font-face {
-	font-family: hellovetica;
-	src: url('../fonts/hellovetica.ttf');
+	font-family: pixelOperator;
+	src: url('../fonts/PixelOperator.ttf');
 }
 
 .chat {
 	background-color: #308dd0;
-	font-family: hellovetica, Helvetica, Arial;
+	font-family: pixelOperator, Helvetica, Arial;
 	display: flex;
 	flex-flow: column;
 	height:600px;;
 	width: 400px;
-	font-size:12px;
+	font-size:24px;
 }
 .chat>.history {
 	flex: 1 1 auto;
@@ -32,7 +32,7 @@
 	margin-right: 70px;
 }
 .chat>.history .username {
-	font-size: 20px;
+	font-size: 40px;
 }
 .chat>form {
 	flex: 0 1 auto;

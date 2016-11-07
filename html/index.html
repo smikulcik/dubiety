@@ -20,20 +20,27 @@
 						</form>
 				</div>
 				<div class='dashboardDisplay'>
-					<h1>Dashboard</h1>
+					<h1>Remote Dashboard</h1>
 					<div class='status'>
 						<h3>Astronaut Status</h3>
-						<span>Health </span><span class='health ok'>Normal</span><br/>
+						<span>Health: </span><span class='health ok'>Normal</span><br/>
+						<span>Heart Rate: </span><span class='heartRate'>60</span>bpm
 
 						<h3>Ship Status</h3>
-						<h4>Ventilation System</h4>
-						<span>Status </span><span class='ventilation failing'>Air Leak Detected</span><br/>
+						<div class='ventilation'>
+							<h4>Ventilation System</h4>
+							<span>Status: </span><span class='status ok'>Normal</span><br/>
+							<span>Action: </span><span class='action'>None</span>
+						</div>
 					</div>
 				</div>
 			</div>
 		</td>
 	</tr></table>
 	<script>
+
+		var dashboard = $('.dashboard');
+		dashboard.Dashboardify();
 		var getwsurl = function(path){
 			var loc = window.location, new_uri;
 			if (loc.protocol === "https:") {
@@ -74,6 +81,9 @@
 				if(json.hasOwnProperty('msg')){
 					chat.Chat.receiveMsg(json.msg, "Anton");
 				}
+				if(json.hasOwnProperty('state')){
+					dashboard.Dashboardify.update(json.state);
+				}
 			};
 
 			this.ws.onopen = function()
@@ -98,7 +108,6 @@
 		chat.Chat("Jeff Jacobs", function(msg){
 			session.send(msg);
 		});
-		var dashboard = $('.dashboard').Dashboardify();
 		</script>
 </body>
 </html>

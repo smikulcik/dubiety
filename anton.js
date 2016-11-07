@@ -214,6 +214,12 @@ Anton.prototype.getSelfExpression = function(){
   }
 };
 
+Anton.prototype.getHeartRate = function(){
+  //stress (0, 60) => (1, 160)
+  var stress = 1 - (this.spirits + 1)/2;  //[0,1]
+  return stress*100 + 60;
+};
+
 Anton.prototype.toJSON = function(){
   return {
     "spirits" : this.spirits,
@@ -226,7 +232,8 @@ Anton.prototype.toJSON = function(){
     "sadness" : this.sadness,
     "confident" : this.confident,
     "spirits" : this.spirits,
-    "trust" : this.trust
+    "trust" : this.trust,
+    "heartRate" : this.getHeartRate()
   };
 };
 
