@@ -14,7 +14,7 @@
 }
 .chat>.history {
 	flex: 1 1 auto;
-	overflow-y: scroll;
+	overflow-y: auto;
 	height:100%;
 }
 .chat>.history>div {
@@ -45,26 +45,7 @@
 }
 .chat>form>button {
 	flex: 0 1 auto;
-	height: 30px;
-	margin:0px;
-	font-family: hellovetica, Helvetica, Arial;
-	font-size:12px;
-	background-color: #e5e5e5;
-}
-.chat>form>button:focus{
-	outline: 2px solid black;
 }
 .chat>form>input{
 	flex: 1 1 auto;
-	height: 30px;
-	margin:0px;
-	font-family: hellovetica, Helvetica, Arial;
-	font-size:12px;
-	background-color: #e5e5e5;
-	border: none;
-	padding:3px;
-	outline: none;
-}
-.chat>form>input:focus{
-	outline: 2px solid black;
 }

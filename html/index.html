@@ -2,12 +2,37 @@
 <head>
 	<script src='https://code.jquery.com/jquery-3.1.1.min.js'></script>
 	<script src='./js/chat.js'></script>
+	<script src='./js/dashboard.js'></script>
 	<link rel="stylesheet" type="text/css" href='./css/chat.css' />
 	<link rel="stylesheet" type="text/css" href='./css/dubiety.css' />
 </head>
 <body>
 	<h1 class='title'>Dubiety</h1>
-	<div class='chat'></div>
+	<table class=game><tr>
+		<td><div class='chat'></div></td>
+		<td>
+			<div class='dashboard'>
+				<div class='loginPrompt'>
+					<span class='white'>Remote Dashboard</span><br/>
+						<form>
+							<input class='passcodeInput' />
+							<button class='connectBtn'>Connect</button>
+						</form>
+				</div>
+				<div class='dashboardDisplay'>
+					<h1>Dashboard</h1>
+					<div class='status'>
+						<h3>Astronaut Status</h3>
+						<span>Health </span><span class='health ok'>Normal</span><br/>
+
+						<h3>Ship Status</h3>
+						<h4>Ventilation System</h4>
+						<span>Status </span><span class='ventilation failing'>Air Leak Detected</span><br/>
+					</div>
+				</div>
+			</div>
+		</td>
+	</tr></table>
 	<script>
 		var getwsurl = function(path){
 			var loc = window.location, new_uri;
@@ -73,13 +98,7 @@
 		chat.Chat("Jeff Jacobs", function(msg){
 			session.send(msg);
 		});
-		$('#analyzer button').click(function(evt){
-			evt.preventDefault();
-			var input = $('#analyzer input').val();
-			$.post('./analyze', {text: input}, function(res){
-				$('#analyzer div').text(res);
-			});
-		});
-	</script>
+		var dashboard = $('.dashboard').Dashboardify();
+		</script>
 </body>
 </html>
