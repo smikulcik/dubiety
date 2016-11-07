@@ -49,7 +49,7 @@
 
 		connectButton.click(function(event){
 			event.preventDefault();
-      if(passcodeInput.val().trim() === passcode || true){
+      if(passcodeInput.val().trim() === passcode){
         state = AUTHENTICATED;
         updateState();
       }
