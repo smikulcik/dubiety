@@ -62,6 +62,8 @@
 
     var playHeartSound = function(){
       heartSound.play();
+      $('.heartRate').animate({"opacity": '1'},180)
+        .animate({"opacity": '.7'}, 100);
       setTimeout(playHeartSound, 1000*60.0/heartRate - 180);
     };
     playHeartSound();
