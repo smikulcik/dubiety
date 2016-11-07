@@ -42,6 +42,7 @@ var Anton = function(session){
   this.pastConversation = [];
 
   this.learning_rate = .1;
+  this.maxMessages = 10;
 
   // metrics
   this.anger = 0;
@@ -52,6 +53,8 @@ var Anton = function(session){
   this.confident = .5;
   this.spirits = .7; // between -1 and 1
   this.trust = .1;
+
+  this.isAlive = true;
 
   this.stage = 1;
 
@@ -144,6 +147,12 @@ Anton.prototype.train = function(){
 Anton.prototype.handleMessage = function(message, callback){
   var that = this;
 
+  if(this.pastConversation.length > this.maxMessages){
+    this.isAlive = false;
+    this.session.sendState();
+    return;
+  }
+
   async.parallel([
     function(cb){sentiment.getSentiment(message, cb)},
     function(cb){sentiment.getTone(message, cb)},
@@ -215,6 +224,8 @@ Anton.prototype.getSelfExpression = function(){
 };
 
 Anton.prototype.getHeartRate = function(){
+  if(!this.isAlive)
+    return 0;
   //stress (0, 60) => (1, 160)
   var stress = 1 - (this.spirits + 1)/2;  //[0,1]
   return stress*100 + 60;

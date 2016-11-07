@@ -23,6 +23,7 @@
       if(state === AUTHENTICATED){
         loginPrompt.hide();
         dashboardDisplay.show();
+        playHeartSound();
       }
 
       if(status !== undefined){
@@ -59,14 +60,31 @@
 		};
 
     var heartSound = new Audio("../sounds/heartMon.wav");
-
+    var flatlineSound = new Audio("../sounds/flatlineSound.wav");
+    flatlineSound.loop = true;
+    var isMuted = false;
     var playHeartSound = function(){
-      heartSound.play();
-      $('.heartRate').animate({"opacity": '1'},180)
-        .animate({"opacity": '.7'}, 100);
-      setTimeout(playHeartSound, 1000*60.0/heartRate - 180);
+      if(!isMuted){
+        heartSound.play();
+        $('.heartRate').animate({"opacity": '1'},180)
+          .animate({"opacity": '.7'}, 100);
+        if(heartRate === 0)
+          flatlineSound.play();
+      }
+      if(heartRate !== 0)
+        setTimeout(playHeartSound, 1000*60.0/heartRate - 180);
     };
-    playHeartSound();
+    $(window).blur(function(){
+      isMuted = true;
+      //heartSound.pause();
+      if(heartRate === 0)
+        flatlineSound.pause();
+    });
+    $(window).focus(function(){
+      isMuted = false;
+      if(heartRate === 0)
+        flatlineSound.play();
+    });
 	};
 
 }(jQuery));
