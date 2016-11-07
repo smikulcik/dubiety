@@ -1,41 +1,70 @@
+@font-face {
+	font-family: hellovetica;
+	src: url('../fonts/hellovetica.ttf');
+}
+
 .chat {
-	border-radius:3px;
-	border: 1px solid black;
-	background-color: #efefef;
-	font-family: Tahoma, Helvetica, Arial;
+	background-color: #308dd0;
+	font-family: hellovetica, Helvetica, Arial;
 	display: flex;
 	flex-flow: column;
-	height: 600px;
+	height:600px;;
+	width: 400px;
+	font-size:12px;
 }
 .chat>.history {
 	flex: 1 1 auto;
 	overflow-y: scroll;
+	height:100%;
 }
 .chat>.history>div {
-	border: 2px dashed grey;
-	border-radius: 3px;
-	margin: 5px;
+	background-color: #e5e5e5;
+	margin: 10px;
 	padding: 3px;
 }
-
 .chat>.history>.me {
-	background-color: lightblue;
+	box-shadow: 5px 5px #a28015;
+	margin-left: 70px;
 }
 
 .chat>.history>.other {
-	background-color: lightyellow;
+	box-shadow: -5px 5px #da3835;
+	margin-right: 70px;
 }
 .chat>.history .username {
-	font-weight: bold;
+	font-size: 20px;
 }
 .chat>form {
 	flex: 0 1 auto;
 	display: flex;
 	flex-flow: row;
+	padding:0px;
+	margin:0px;
+	margin-bottom: 2px;
+	bottom:0px;
 }
-chat>form>button {
+.chat>form>button {
 	flex: 0 1 auto;
+	height: 30px;
+	margin:0px;
+	font-family: hellovetica, Helvetica, Arial;
+	font-size:12px;
+	background-color: #e5e5e5;
+}
+.chat>form>button:focus{
+	outline: 2px solid black;
 }
 .chat>form>input{
 	flex: 1 1 auto;
+	height: 30px;
+	margin:0px;
+	font-family: hellovetica, Helvetica, Arial;
+	font-size:12px;
+	background-color: #e5e5e5;
+	border: none;
+	padding:3px;
+	outline: none;
+}
+.chat>form>input:focus{
+	outline: 2px solid black;
 }

@@ -1,0 +1,18 @@
+@font-face {
+	font-family: hellovetica;
+	src: url('../fonts/hellovetica.ttf');
+}
+
+body {
+  font-family: hellovetica, Helvetica, sans-serif;
+	background-color: #063443;
+}
+
+.title {
+  color:white;
+  font-size:20px;
+}
+.chat {
+  border: 1px solid red;
+  right:0px;
+}

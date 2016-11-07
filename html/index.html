@@ -3,16 +3,11 @@
 	<script src='https://code.jquery.com/jquery-3.1.1.min.js'></script>
 	<script src='./js/chat.js'></script>
 	<link rel="stylesheet" type="text/css" href='./css/chat.css' />
+	<link rel="stylesheet" type="text/css" href='./css/dubiety.css' />
 </head>
 <body>
-	<h1>Dubiety</h1>
+	<h1 class='title'>Dubiety</h1>
 	<div class='chat'></div>
-	<form id=analyzer>
-		<h3>Sentiment Analysis</h3>
-		<input />
-		<button type=submit id='analyzeBtn'>Analyze</button>
-		<div id='analyzeOutput'></div>
-	</form>
 	<script>
 		var getwsurl = function(path){
 			var loc = window.location, new_uri;
