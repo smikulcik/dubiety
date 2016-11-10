@@ -11,7 +11,7 @@ var conversation = watson.conversation({
 exports.message = function(input, context, cbFunc){
 
   conversation.message({
-    workspace_id: 'cb2920fb-1719-41e1-99a8-96691233d004',
+    workspace_id: 'e8665df7-7943-43e0-b805-7b82b6f884f2',
     input: {'text': input},
     context: context
   },  function(err, response) {

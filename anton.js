@@ -52,7 +52,7 @@ var Anton = function(session){
   this.sadness = .1;
   this.confident = .5;
   this.spirits = .7; // between -1 and 1
-  this.trust = .1;
+  this.trust = .1;  //  between 0 and 1
 
   this.isAlive = true;
 
@@ -156,7 +156,13 @@ Anton.prototype.handleMessage = function(message, callback){
   async.parallel([
     function(cb){sentiment.getSentiment(message, cb)},
     function(cb){sentiment.getTone(message, cb)},
-    function(cb){conversation.message(message, that.conversationContext, function(resp){cb(null, resp);})}
+    function(cb){conversation.message(message, that.conversationContext, function(resp){
+        console.log(that.conversationContext);
+        that.conversationContext = resp.context;
+
+        cb(null, resp);
+      })
+    }
   ], function(err, results){
     var sentiment = results[0];
     var tone = results[1];
@@ -192,6 +198,15 @@ Anton.prototype.handleMessage = function(message, callback){
     that.spirits = opinion[0];
     that.trust = opinion[1];
 
+    if(conv_resp.output.text == "Turning on Lights"){
+      if(that.trust > .5){
+        //turn on lights
+        that.turnOnLights();
+      } else {
+        // don't turn on lights
+        that.send("No, I won't do that.  I don't trust you!");
+      }
+    }
     if(that.spirits > 0 && that.trust > .3 && conv_resp.output.text != "I don't know."){
         that.session.send(conv_resp.output.text);
         that.pastConversation.push([message, sentiment, conv_resp]);
@@ -202,7 +217,7 @@ Anton.prototype.handleMessage = function(message, callback){
     }
 
     if(that.trust > 0.9 && that.stage == 1){
-      that.stage == 2;
+      that.stage = 2;
       that.session.send("Ok, here is the passcode to my sensors: XIETSG")
     }
 
@@ -230,6 +245,28 @@ Anton.prototype.getHeartRate = function(){
   var stress = 1 - (this.spirits + 1)/2;  //[0,1]
   return stress*100 + 60;
 };
+
+Anton.prototype.turnOnLights = function(){
+  var that = this;
+
+  that.send("I'm going to turn on the lights. Hold on a sec.");
+  setTimeout(function(){
+    that.send("Ok, Lights are on");
+  }, 1000);
+};
+
+Anton.prototype.turnOffLights = function(){
+  var that = this;
+
+  that.send("I'm going to turn off the lights. Hold on a sec.");
+  setTimeout(function(){
+    that.send("Ok, Lights are off.  It's dark here");
+  }, 1000);
+};
+
+Anton.prototype.send = function(message){
+  this.session.send(message);
+}
 
 Anton.prototype.toJSON = function(){
   return {
