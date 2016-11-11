@@ -34,9 +34,10 @@ function randElement(arr){
   return arr[Math.floor(Math.random()*arr.length)];
 }
 
-var Anton = function(session){
+var Anton = function(session, ship){
 	this.name = 'Anton';
 	this.session = session;
+  this.ship = ship;
   this.conversationContext = {};
 
   this.pastConversation = [];
@@ -206,6 +207,24 @@ Anton.prototype.handleMessage = function(message, callback){
         // don't turn on lights
         that.send("No, I won't do that.  I don't trust you!");
       }
+
+      if(callback != undefined)
+        callback();
+      return;
+    }
+
+    if(conv_resp.output.text == "Turning off Lights"){
+      if(that.trust > .5){
+        //turn on lights
+        that.turnOffLights();
+      } else {
+        // don't turn on lights
+        that.send("No, I won't do that.  I don't trust you!");
+      }
+
+      if(callback != undefined)
+        callback();
+      return;
     }
     if(that.spirits > 0 && that.trust > .3 && conv_resp.output.text != "I don't know."){
         that.session.send(conv_resp.output.text);
@@ -251,7 +270,9 @@ Anton.prototype.turnOnLights = function(){
 
   that.send("I'm going to turn on the lights. Hold on a sec.");
   setTimeout(function(){
+    that.ship.turnOnLights();
     that.send("Ok, Lights are on");
+    that.session.sendState();
   }, 1000);
 };
 
@@ -260,7 +281,9 @@ Anton.prototype.turnOffLights = function(){
 
   that.send("I'm going to turn off the lights. Hold on a sec.");
   setTimeout(function(){
+    that.ship.turnOffLights();
     that.send("Ok, Lights are off.  It's dark here");
+    that.session.sendState();
   }, 1000);
 };
 

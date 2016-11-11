@@ -34,13 +34,13 @@
           }
         }
         if(status.hasOwnProperty('ship')){
-          if(status.ship.hasOwnProperty('ventilation')){
-            console.log("updating ventilation");
-            console.log(status.ship.ventilation);
-            dashboardDisplay.find('.ventilation .status').text(status.ship.ventilation.status);
-            dashboardDisplay.find('.ventilation .status').removeClass('ok failing');
-            dashboardDisplay.find('.ventilation .status').addClass(status.ship.ventilation.state);
-            dashboardDisplay.find('.ventilation .action').text(status.ship.ventilation.action);
+          for(var ss_id in status.ship){
+            var subsystem = status.ship[ss_id];
+            console.log(ss_id);
+            dashboardDisplay.find("." + ss_id).find('.state').text(subsystem.state);
+            dashboardDisplay.find("." + ss_id).find('.state').removeClass('ok failing');
+            dashboardDisplay.find("." + ss_id).find('.state').addClass(subsystem.status);
+            dashboardDisplay.find("." + ss_id).find('.action').text(subsystem.action);
           }
         }
       }
@@ -49,7 +49,7 @@
 
 		connectButton.click(function(event){
 			event.preventDefault();
-      if(passcodeInput.val().trim() === passcode){
+      if(passcodeInput.val().trim().toUpperCase() === passcode){
         state = AUTHENTICATED;
         updateState();
       }

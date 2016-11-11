@@ -1,10 +1,12 @@
 
 var anton = require("./anton.js");
+var ship = require("./ship.js");
 
 var Session = function(token, ws){
   this.token = token;
   this.ws = ws;
-  this.anton = new anton.Anton(this);
+  this.ship = new ship.Ship(this);
+  this.anton = new anton.Anton(this, this.ship);
 };
 
 // connect a session to a new websocket
@@ -44,14 +46,8 @@ Session.prototype.sendState = function(errback){
 Session.prototype.getState = function(){
   return {
     'anton': this.anton,
-    'ship': {
-      'ventilation': {
-        'state': "failing",
-        "status": "Air Leak Detected",
-        "action": "Engage the Ventilation System Lockdown Override"
-      }
-    }
-  }
+    'ship': this.ship
+  };
 };
 
 Session.prototype.toJSON = function(){
