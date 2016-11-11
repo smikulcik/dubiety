@@ -22,7 +22,6 @@ body {
 }
 
 .chat {
-  border: 1px solid red;
   right:0px;
 }
 
@@ -60,6 +59,10 @@ body {
 
 .white{color:white;}
 
+.redOutline {
+	border: 1px solid red;
+	padding: 3px;
+}
 
 button {
 	height: 30px;
@@ -84,4 +87,9 @@ input{
 }
 input:focus{
 	outline: 2px solid black;
+}
+
+h4 {
+	margin-top:0px;
+	margin-bottom:10px;
 }
