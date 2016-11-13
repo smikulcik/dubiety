@@ -8,44 +8,53 @@
 </head>
 <body>
 	<h1 class='title'>Dubiety</h1>
-	<table class=game><tr>
-		<td><div class='chat redOutline'></div></td>
-		<td>
-			<div class='dashboard'>
-				<div class='loginPrompt'>
-					<span class='white'>Remote Dashboard</span><br/>
-						<form>
-							<input class='passcodeInput' />
-							<button class='connectBtn'>Connect</button>
-						</form>
-				</div>
-				<div class='dashboardDisplay'>
-					<h1>Remote Dashboard</h1>
-					<div class='status'>
-						<h3>Astronaut Status</h3>
-						<div class='redOutline'>
-							<span>Health: </span><span class='health ok'>Normal</span><br/>
-							<span>Heart Rate: </span><span class='heartRate'>60</span>bpm
-						</div>
-						<h3>Ship Status</h3>
-						<div class='redOutline'>
-							<div class='lights'>
-								<h4>Cabin Lights</h4>
-								<span>Status: </span><span class='state ok'>Normal</span><br/>
-								<span>Action: </span><span class='action'>None</span>
+	<div class=game>
+		<div class=intro>
+			<h1>Introduction</h1>
+			<div class='text'>
+
+			</div>
+			<button class=introNext>Next</button>
+		</div>
+		<table class=main><tr>
+			<td><div class='chat redOutline'></div></td>
+			<td>
+				<div class='dashboard'>
+					<div class='loginPrompt'>
+						<span class='white'>Remote Dashboard</span><br/>
+							<form>
+								<input class='passcodeInput' />
+								<button class='connectBtn'>Connect</button>
+							</form>
+					</div>
+					<div class='dashboardDisplay'>
+						<h1>Remote Dashboard</h1>
+						<div class='status'>
+							<h3>Astronaut Status</h3>
+							<div class='redOutline'>
+								<span>Health: </span><span class='health ok'>Normal</span><br/>
+								<span>Heart Rate: </span><span class='heartRate'>60</span>bpm
 							</div>
-							<br>
-							<div class='ventilation'>
-								<h4>Ventilation System</h4>
-								<span>Status: </span><span class='state ok'>Normal</span><br/>
-								<span>Action: </span><span class='action'>None</span>
+							<h3>Ship Status</h3>
+							<div class='redOutline'>
+								<div class='lights'>
+									<h4>Cabin Lights</h4>
+									<span>Status: </span><span class='state ok'>Normal</span><br/>
+									<span>Action: </span><span class='action'>None</span>
+								</div>
+								<br>
+								<div class='ventilation'>
+									<h4>Ventilation System</h4>
+									<span>Status: </span><span class='state ok'>Normal</span><br/>
+									<span>Action: </span><span class='action'>None</span>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</td>
-	</tr></table>
+			</td>
+		</tr></table>
+	</div>
 	<script>
 
 		var dashboard = $('.dashboard');
@@ -114,8 +123,85 @@
 		var session = new Session();
 
 		var chat = $('.chat');
-		chat.Chat("Jeff Jacobs", function(msg){
+		chat.Chat("Jeff", function(msg){
 			session.send(msg);
+		});
+
+		var startMain = function(){
+			chat.Chat.receiveMsg("Hello?", "Anton");
+			chat.Chat.receiveMsg("SOS!", "Anton");
+			chat.Chat.receiveMsg("I'm going to die here!!!", "Anton");
+			chat.Chat.receiveMsg("soS", "Anton");
+			$('.intro').hide();
+			$('.main').show();
+			setTimeout(function(){chat.Chat.receiveMsg("Is anyone there?", "Anton");},500);
+			setTimeout(function(){chat.Chat.receiveMsg("Can you hear me?", "Anton");},2000);
+		};
+
+		var intro_text = [
+			"Hello Jeff!",
+
+			"Welcome to your first day with the ground control squad for the " +
+			"Space Exploration Team (SET).",
+
+			"Thank you for taking your time to complete your training for the SET " +
+			"ground control.  This should take around 1 minute to complete.",
+
+			"Here at SET ground control, we provide commuication services " +
+			"for manned space crafts to monitor astronaut vitals, and " +
+			"ship statuses to make sure that " +
+			"the astronauts are physically, mentally, and emotionally stable.",
+
+			"For the sake of each " +
+			"mission, it is your duty to keep good relations with the astronauts " +
+			"so that they do not become anxious and lose focus.",
+
+			"Try giving supporting words to keep stressful situations at " +
+			"a minimum.  Also, always give good advice.  The astronauts trust " +
+			"you, and will follow what you think is best.",
+
+			"We communicate with our astronauts via the TextChat application.",
+
+			"Also, you may view the status of the astronauts and their ship via the " +
+			"Remote Dashboard.  All you need is a passcode to connect to each shuttle",
+
+			"Over our past 10 years of operation, we have never had any serious " +
+			"issues, so we do not expect to have any problems now.",
+
+			"Since we have no spacecrafts of our own in orbit, we are not currently " +
+			"staffing people at ground control.",
+
+			"Thank you for completing your mandatory SET ground control training. <br/><br/>" +
+			"Feel free to try out the TextChat application and the Remote Dashboard. " +
+			"Again, none of our spacecrafts are in orbit, so there really isn't " +
+			"anything going on."
+		];
+		var intro_page = 0;
+
+		var nextIntroPage = function(){
+			$('.intro button.introNext').prop("disabled", true)
+				.css({"font-weight": "normal", "font-size": '24px', 'height': '30px'}, 500);
+			$('.intro .text').html(intro_text[intro_page]);
+				var timeout =  30*intro_text[intro_page].length; //.03s per character
+				setTimeout(function(){
+					$('.intro button.introNext').prop("disabled", false);
+					$('.intro button.introNext')
+						.animate({"font-weight": "bold", "font-size": '35px', "height": '45px'}, 500)
+				}, timeout);
+			intro_page++;
+		};
+
+		$('.main').hide();
+		nextIntroPage();
+
+		$('.intro button.introNext').click(function(){
+			if(intro_page == intro_text.length - 1){
+				$('.intro button.introNext').text("Load TextChat and Remote Dashboard");
+			}
+				if(intro_page == intro_text.length){
+					startMain();
+				}
+			nextIntroPage();
 		});
 		</script>
 </body>
