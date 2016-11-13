@@ -10,9 +10,9 @@
 	<h1 class='title'>Dubiety</h1>
 	<div class=game>
 		<div class=intro>
-			<h1>Introduction</h1>
+			<h1><i>Space Exploration Team</i></h1>
 			<div class='text'>
-
+				Space Exploration Team: <i>Paving the Frontier to Success</i>
 			</div>
 			<button class=introNext>Next</button>
 		</div>
@@ -182,26 +182,32 @@
 			$('.intro button.introNext').prop("disabled", true)
 				.css({"font-weight": "normal", "font-size": '24px', 'height': '30px'}, 500);
 			$('.intro .text').html(intro_text[intro_page]);
-				var timeout =  30*intro_text[intro_page].length; //.03s per character
+				var timeout = 30*intro_text[intro_page].length; //.03s per character
 				setTimeout(function(){
-					$('.intro button.introNext').prop("disabled", false);
 					$('.intro button.introNext')
-						.animate({"font-weight": "bold", "font-size": '35px', "height": '45px'}, 500)
+						.animate({"font-weight": "bold", "font-size": '35px', "height": '45px'}, {
+							'duration': 500,
+							'complete':function(){
+								$('.intro button.introNext').prop("disabled", false);
+							}
+						});
 				}, timeout);
 			intro_page++;
 		};
 
 		$('.main').hide();
-		nextIntroPage();
+		$('.intro button.introNext').text("Begin Training");
 
 		$('.intro button.introNext').click(function(){
+			$('.intro button.introNext').text("Next");
 			if(intro_page == intro_text.length - 1){
 				$('.intro button.introNext').text("Load TextChat and Remote Dashboard");
 			}
-				if(intro_page == intro_text.length){
-					startMain();
-				}
-			nextIntroPage();
+			if(intro_page >= intro_text.length){
+				startMain();
+			}else{
+				nextIntroPage();
+			}
 		});
 		</script>
 </body>
