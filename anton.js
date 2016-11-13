@@ -66,6 +66,20 @@ var Anton = function(session, ship){
   session.send("Help! I've lost communication with my ground control!!");
 };
 
+Anton.prototype.update = function(){
+  // check ship environment
+  // update health status
+  if(!this.isAlive){
+    return;
+  }
+  if(this.ship.ventilation.metrics["airPressure"] < .57)
+    this.die();
+};
+
+Anton.prototype.die = function(){
+  this.isAlive = false;
+}
+
 Anton.prototype.train = function(){
   /*
   1 (sentiment + 1)/2,  // normalize sentiment
@@ -143,16 +157,10 @@ Anton.prototype.train = function(){
 
   console.log("TRAINED");
   console.log(this.brain.activate([1,0,0,0,1,0,1,0,0,0,1,0,1,1,1]));
-}
+};
 
 Anton.prototype.handleMessage = function(message, callback){
   var that = this;
-
-  if(this.pastConversation.length > this.maxMessages){
-    this.isAlive = false;
-    this.session.sendState();
-    return;
-  }
 
   async.parallel([
     function(cb){sentiment.getSentiment(message, cb)},
@@ -260,8 +268,13 @@ Anton.prototype.getSelfExpression = function(){
 Anton.prototype.getHeartRate = function(){
   if(!this.isAlive)
     return 0;
+
+  // 0 is stressed, 1 is not stressed
+  var spirit_factor = (this.spirits + 1)/2;
+  var air_factor = (this.ship.ventilation.metrics.airPressure - .57)/(1-.57)
+
   //stress (0, 60) => (1, 160)
-  var stress = 1 - (this.spirits + 1)/2;  //[0,1]
+  var stress = 1 - (spirit_factor * air_factor);//[0,1]
   return stress*100 + 60;
 };
 

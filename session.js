@@ -7,6 +7,8 @@ var Session = function(token, ws){
   this.ws = ws;
   this.ship = new ship.Ship(this);
   this.anton = new anton.Anton(this, this.ship);
+
+  this.updateLoop = 0;
 };
 
 // connect a session to a new websocket
@@ -22,13 +24,25 @@ Session.prototype.connect = function(ws) {
       if(that.ws.readyState !== 1){
         console.log("Deleting " + that.token);
         delete sessions[that.token];
+        clearInterval(this.updateLoop);
       }
 		}, 30000); //wait to see if reconnecting in 30 seconds works
 	});
+
+  clearInterval(this.updateLoop);
+  this.updateLoop = setInterval(function(){that.update()}, 1000);
+}
+
+Session.prototype.update = function(){
+  this.ship.update();
+  this.anton.update();
+  this.sendState();
 }
 
 Session.prototype.send = function(message, errback){
   var that = this;
+  if(this.ws.readyState !== 1)
+    return;
   this.ws.send(JSON.stringify({
     'token': this.token,
     'msg': message,
@@ -37,6 +51,8 @@ Session.prototype.send = function(message, errback){
 };
 
 Session.prototype.sendState = function(errback){
+  if(this.ws.readyState !== 1)
+    return;
   this.ws.send(JSON.stringify({
     'token': this.token,
     'state': this.getState()

@@ -36,11 +36,15 @@
         if(status.hasOwnProperty('ship')){
           for(var ss_id in status.ship){
             var subsystem = status.ship[ss_id];
-            console.log(ss_id);
             dashboardDisplay.find("." + ss_id).find('.state').text(subsystem.state);
             dashboardDisplay.find("." + ss_id).find('.state').removeClass('ok failing');
             dashboardDisplay.find("." + ss_id).find('.state').addClass(subsystem.status);
             dashboardDisplay.find("." + ss_id).find('.action').text(subsystem.action);
+
+            for(var metric in subsystem.metrics){
+              var m_val = Math.round(subsystem.metrics[metric]*1000)/1000;
+              dashboardDisplay.find("." + ss_id).find('.' + metric).text(m_val);
+            }
           }
         }
       }

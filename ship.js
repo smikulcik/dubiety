@@ -7,8 +7,20 @@ var Ship = function(){
   this.ventilation = {
     'state': "Air Leak Detected",
     "status": "failing",
-    "action": "Engage the Ventilation System Lockdown Override"
+    "action": "Engage the Ventilation System Lockdown Override",
+    "metrics": {
+      "airPressure": 1, //air pressure in atm
+    }
   };
+};
+
+Ship.prototype.update = function(){
+  // change air pressure based on air leak
+  if(this.ventilation.status == "failing"){
+    this.ventilation.metrics["airPressure"] *= .995;
+  }else{
+      this.ventilation.metrics["airPressure"] += (1-this.ventilation.metrics["airPressure"])*.95;
+  }
 };
 
 Ship.prototype.turnOffLights = function(){
