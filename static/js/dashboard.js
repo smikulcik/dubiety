@@ -7,6 +7,7 @@
 	$.fn.Dashboardify = function() {
 
     var state = UNAUTHENTICATED;
+    var isActive = true;
     var connectButton = $('.connectBtn');
     var passcodeInput = $('.passcodeInput');
     var loginPrompt = $('.loginPrompt');
@@ -62,12 +63,16 @@
       updateState(state);
 		};
 
+    $.fn.Dashboardify.disable = function(){
+      isActive = false;
+    };
+
     var heartSound = new Audio("../sounds/heartMon.wav");
     var flatlineSound = new Audio("../sounds/flatlineSound.wav");
     flatlineSound.loop = true;
     var isMuted = true;
     var playHeartSound = function(){
-      if(!isMuted && state === AUTHENTICATED){
+      if(!isMuted && state === AUTHENTICATED && isActive){
         heartSound.play();
         $('.heartRate').animate({"opacity": '1'},180)
           .animate({"opacity": '.7'}, 100);

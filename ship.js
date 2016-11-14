@@ -43,6 +43,14 @@ Ship.prototype.turnOffVentilation = function(){
   this.ventilation.action = 'Engage the Ventilation System Lockdown Override';
 };
 
+Ship.prototype.areAllSystemsGo = function(){
+  if(this.ventilation.state === 'failing')
+    return false;
+  if(this.lights.state === 'failing')
+    return false;
+  return true;
+};
+
 Ship.prototype.toJSON = function(){
   return {
     "lights": this.lights,

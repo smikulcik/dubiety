@@ -19,7 +19,6 @@ body {
   width:800px;
   margin:auto;
 	background-color: #063443;
-  padding: 3px;
 }
 
 .chat {
@@ -68,8 +67,8 @@ body {
 .intro {
 	padding: 30px;
 	background-color: #308dd0;
-	width: 100%;
-	height: 100%;
+	width: 740px;
+	height: 540px;
 }
 .intro .text {
 	padding: 20px;
@@ -84,6 +83,30 @@ body {
 	position: absolute;
 	bottom: 30px;
 	right: 30px;
+}
+
+.ending {
+	display: none;
+	padding: 30px;
+	background-color: #308dd0;
+	width: 740px;
+	height: 540px;
+	color: white;
+	font-size: 60px;
+	text-align: center;
+}
+
+.credits {
+	display: none;
+	padding: 30px;
+	background-color: #308dd0;
+	width: 740px;
+	height: 540px;
+	font-size: 22px;
+}
+
+.credits u{
+	font-weight: bold;
 }
 
 button {

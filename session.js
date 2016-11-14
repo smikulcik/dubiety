@@ -8,6 +8,8 @@ var Session = function(token, ws){
   this.ship = new ship.Ship(this);
   this.anton = new anton.Anton(this, this.ship);
 
+  this.startTime = undefined;
+
   this.updateLoop = 0;
 };
 
@@ -31,13 +33,17 @@ Session.prototype.connect = function(ws) {
 
   clearInterval(this.updateLoop);
   this.updateLoop = setInterval(function(){that.update()}, 1000);
+};
+
+Session.prototype.setStartTime = function(time){
+  this.startTime = time;
 }
 
 Session.prototype.update = function(){
   this.ship.update();
   this.anton.update();
   this.sendState();
-}
+};
 
 Session.prototype.send = function(message, errback){
   var that = this;
@@ -62,8 +68,33 @@ Session.prototype.sendState = function(errback){
 Session.prototype.getState = function(){
   return {
     'anton': this.anton,
-    'ship': this.ship
+    'ship': this.ship,
+    'game': {
+      'isOver': this.isGameOver(),
+      'state': this.getGameState()
+    }
   };
+};
+
+Session.prototype.isGameOver = function(){
+  //if you are dead, the game is over
+  if(this.anton && !this.anton.isAlive){
+    console.log("anton died");
+    return true;
+  }
+  //if you are alive after 3 minutes, help comes to save anton
+  if(this.ship.areAllSystemsGo() && (new Date()) - this.startTime > 3*60*1000){
+    console.log("Help came and all system go");
+    return true;
+  }
+  return false;
+};
+
+Session.prototype.getGameState = function(){
+    if(this.anton && this.anton.isAlive){
+      return true;
+    return false;
+    }
 };
 
 Session.prototype.toJSON = function(){
@@ -72,7 +103,8 @@ Session.prototype.toJSON = function(){
     "ws" : {
       "state" : this.ws.readyState
     },
-    "anton" : this.anton
+    "anton" : this.anton,
+    "startTime": this.startTime
   }
 };
 

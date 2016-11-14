@@ -57,6 +57,26 @@
 				</div>
 			</td>
 		</tr></table>
+
+		<div class='ending'>
+			<span class=msg></span><br>
+			<button class=showCreditsBtn>Ok</button>
+		</div>
+		<div class='credits'>
+				<h1>Credits</h1>
+				<p><u>Concept, Design, Coding, and Graphics</u></p>
+				<p>Simon Mikulcik</p>
+				<p><u>Project Mentor</u></p>
+				<p>Dr. George Landon</p>
+				<p><u>Special Thanks</u></p>
+				<p>Dr. Ka-Wing Wong and the Eastern Kentucky University Computer Science Department</p>
+				<p>Dr. David Coleman and Eastern Kentucky University Honors Program</p>
+				<br>
+				<i>
+					This game was developed in partial fulfillment of the requirements for
+					the Honors Thesis Project at Eastern Kentucky University
+				</i>
+		</div>
 	</div>
 	<script>
 
@@ -103,6 +123,9 @@
 					chat.Chat.receiveMsg(json.msg, "Anton");
 				}
 				if(json.hasOwnProperty('state')){
+					if(json.state.game.isOver == true && hasStartedEnding === false){
+						startEnding(json.state.game.state);
+					}
 					dashboard.Dashboardify.update(json.state);
 				}
 			};
@@ -130,6 +153,8 @@
 			session.send(msg);
 		});
 
+		var hasStartedEnding = false;
+
 		var startMain = function(){
 			chat.Chat.receiveMsg("Hello?", "Anton");
 			chat.Chat.receiveMsg("SOS!", "Anton");
@@ -140,6 +165,31 @@
 			setTimeout(function(){chat.Chat.receiveMsg("Is anyone there?", "Anton");},500);
 			setTimeout(function(){chat.Chat.receiveMsg("Can you hear me?", "Anton");},2000);
 			setTimeout(startAirLeak, 20000); //after 20s, start air leak
+		};
+
+		var startEnding = function(didWin){
+			dashboard.Dashboardify.disable();
+			hasStartedEnding = true;
+			if(didWin){
+				setTimeout(function(){chat.Chat.receiveMsg("Hey, I just heard back from my ground control!", "Anton");},1000);
+				setTimeout(function(){chat.Chat.receiveMsg("They are preparing for my landing!", "Anton");},1500);
+				setTimeout(function(){chat.Chat.receiveMsg("Thank you so much for your help.  I'm alive thanks to you.", "Anton");},2500);
+				setTimeout(showYouWin, 5000);
+			}else{
+				setTimeout(showYouLose, 5000);
+			}
+		};
+
+		var showYouLose = function(){
+			$('.ending .msg').text("You Lose");
+			$('.main').hide();
+			$('.ending').show();
+		};
+
+		var showYouWin = function(){
+			$('.ending .msg').text("You Win!");
+			$('.main').hide();
+			$('.ending').show();
 		};
 
 		var startAirLeak = function(){
@@ -216,6 +266,11 @@
 			}else{
 				nextIntroPage();
 			}
+		});
+
+		$('.ending button').click(function(){
+			$('.ending').hide();
+			$('.credits').show();
 		});
 		</script>
 </body>

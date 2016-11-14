@@ -30,6 +30,7 @@ app.ws('/ws', function(ws, req) {
 				if(msg.hasOwnProperty('action')){
 					if(msg.action === "startAirLeak"){
             session.ship.turnOffVentilation();
+            session.setStartTime(new Date());
           }
         }
 			} else {
