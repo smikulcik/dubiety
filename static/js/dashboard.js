@@ -23,7 +23,6 @@
       if(state === AUTHENTICATED){
         loginPrompt.hide();
         dashboardDisplay.show();
-        playHeartSound();
       }
 
       if(status !== undefined){
@@ -66,9 +65,9 @@
     var heartSound = new Audio("../sounds/heartMon.wav");
     var flatlineSound = new Audio("../sounds/flatlineSound.wav");
     flatlineSound.loop = true;
-    var isMuted = false;
+    var isMuted = true;
     var playHeartSound = function(){
-      if(!isMuted){
+      if(!isMuted && state === AUTHENTICATED){
         heartSound.play();
         $('.heartRate').animate({"opacity": '1'},180)
           .animate({"opacity": '.7'}, 100);
@@ -76,8 +75,10 @@
           flatlineSound.play();
       }
       if(heartRate !== 0)
-        setTimeout(playHeartSound, 1000*60.0/heartRate - 180);
+        setTimeout(playHeartSound, 1000*60.0/heartRate);
     };
+    playHeartSound();
+
     $(window).blur(function(){
       isMuted = true;
       //heartSound.pause();

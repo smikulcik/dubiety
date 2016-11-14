@@ -161,6 +161,11 @@ Anton.prototype.train = function(){
 
 Anton.prototype.handleMessage = function(message, callback){
   var that = this;
+  if(!this.isAlive){
+    if(callback != undefined)
+      callback();
+    return;
+  }
 
   async.parallel([
     function(cb){sentiment.getSentiment(message, cb)},
@@ -207,33 +212,12 @@ Anton.prototype.handleMessage = function(message, callback){
     that.spirits = opinion[0];
     that.trust = opinion[1];
 
-    if(conv_resp.output.text == "Turning on Lights"){
-      if(that.trust > .5){
-        //turn on lights
-        that.turnOnLights();
-      } else {
-        // don't turn on lights
-        that.send("No, I won't do that.  I don't trust you!");
-      }
-
+    if(that.handleActions(conv_resp.output.text)){
       if(callback != undefined)
         callback();
       return;
     }
 
-    if(conv_resp.output.text == "Turning off Lights"){
-      if(that.trust > .5){
-        //turn on lights
-        that.turnOffLights();
-      } else {
-        // don't turn on lights
-        that.send("No, I won't do that.  I don't trust you!");
-      }
-
-      if(callback != undefined)
-        callback();
-      return;
-    }
     if(that.spirits > 0 && that.trust > .3 && conv_resp.output.text != "I don't know."){
         that.session.send(conv_resp.output.text);
         that.pastConversation.push([message, sentiment, conv_resp]);
@@ -251,6 +235,56 @@ Anton.prototype.handleMessage = function(message, callback){
     if(callback != undefined)
       callback();
   });
+};
+
+// return true if action was handled, false if not
+Anton.prototype.handleActions = function(action){
+  var that = this;
+
+  if(action == "Turning on Lights"){
+    if(that.trust > .5){
+      //turn on lights
+      that.turnOnLights();
+    } else {
+      // don't turn on lights
+      that.send("No, I won't do that.  I don't trust you!");
+    }
+    return true;
+  }
+
+  if(action == "Turning off Lights"){
+    if(that.trust > .5){
+      //turn on lights
+      that.turnOffLights();
+    } else {
+      // don't turn on lights
+      that.send("No, I won't do that.  I don't trust you!");
+    }
+    return true;
+  }
+
+  if(action == "Turning on Ventilation System"){
+    if(that.trust > .5){
+      //turn on Ventilation
+      that.turnOnVentilation();
+    } else {
+      // don't turn on Ventilation
+      that.send("No, I won't do that.  I don't trust you!");
+    }
+    return true;
+  }
+
+  if(action == "Turning off Ventilation System"){
+    if(that.trust > .5){
+      //turn on Ventilation
+      that.turnOffVentilation();
+    } else {
+      // don't turn on Ventilation
+      that.send("No, I won't do that.  I don't trust you!");
+    }
+    return true;
+  }
+  return false;
 };
 
 Anton.prototype.getSelfExpression = function(){
@@ -275,7 +309,7 @@ Anton.prototype.getHeartRate = function(){
 
   //stress (0, 60) => (1, 160)
   var stress = 1 - (spirit_factor * air_factor);//[0,1]
-  return stress*100 + 60;
+  return stress*160 + 40;
 };
 
 Anton.prototype.turnOnLights = function(){
@@ -286,7 +320,7 @@ Anton.prototype.turnOnLights = function(){
     that.ship.turnOnLights();
     that.send("Ok, Lights are on");
     that.session.sendState();
-  }, 1000);
+  }, 5000);
 };
 
 Anton.prototype.turnOffLights = function(){
@@ -297,7 +331,31 @@ Anton.prototype.turnOffLights = function(){
     that.ship.turnOffLights();
     that.send("Ok, Lights are off.  It's dark here");
     that.session.sendState();
-  }, 1000);
+  }, 5000);
+};
+
+Anton.prototype.turnOnVentilation = function(){
+  var that = this;
+
+  that.send("I'm going to engage the Ventilation System Lockdown Override. Hold on a sec.");
+  setTimeout(function(){
+    that.ship.turnOnVentilation();
+    that.send("Ok, it is engaged");
+    that.session.sendState();
+  }, 5000);
+};
+
+
+
+Anton.prototype.turnOffVentilation = function(){
+  var that = this;
+
+  that.send("I'm going to disengage the Ventilation System Lockdown Override. Hold on a sec.");
+  setTimeout(function(){
+    that.ship.turnOffVentilation();
+    that.send("Ok, it's disengaged.");
+    that.session.sendState();
+  }, 5000);
 };
 
 Anton.prototype.send = function(message){
