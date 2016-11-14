@@ -30,6 +30,13 @@ var angry = [
   ".."
 ];
 
+var air_complaints = [
+  "I'm not feeling that great..",
+  "I'm getting kinda light headed",
+  "Whoa!, I blacked out for a sec there.",
+  "I can barely keep my eyes open.."
+];
+
 function randElement(arr){
   return arr[Math.floor(Math.random()*arr.length)];
 }
@@ -44,6 +51,8 @@ var Anton = function(session, ship){
 
   this.learning_rate = .1;
   this.maxMessages = 10;
+
+  this.airPressureComplaintIndex = 0;
 
   // metrics
   this.anger = 0;
@@ -72,9 +81,21 @@ Anton.prototype.update = function(){
   if(!this.isAlive){
     return;
   }
-  if(this.ship.ventilation.metrics["airPressure"] < .57)
-    this.die();
+  this.reactToAir();
 };
+
+Anton.prototype.reactToAir = function(){
+  var airPressure = this.ship.ventilation.metrics["airPressure"];
+  if(airPressure < .57)
+    this.die();
+
+  // complain once for each category
+  if(airPressure < 1 - .1*(this.airPressureComplaintIndex + 1)){
+    this.session.send(air_complaints[this.airPressureComplaintIndex]);
+    this.airPressureComplaintIndex++;
+    return;
+  }
+}
 
 Anton.prototype.die = function(){
   this.isAlive = false;
