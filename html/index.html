@@ -139,7 +139,12 @@
 			$('.main').show();
 			setTimeout(function(){chat.Chat.receiveMsg("Is anyone there?", "Anton");},500);
 			setTimeout(function(){chat.Chat.receiveMsg("Can you hear me?", "Anton");},2000);
+			setTimeout(startAirLeak, 20000); //after 20s, start air leak
 		};
+
+		var startAirLeak = function(){
+			session.ws.send(JSON.stringify({'token': session.token, 'action': "startAirLeak"}));
+		}
 
 		var intro_text = [
 			"Hello Jeff!",

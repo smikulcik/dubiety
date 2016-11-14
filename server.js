@@ -27,6 +27,11 @@ app.ws('/ws', function(ws, req) {
 				session.connect(ws);
 				if(msg.hasOwnProperty('msg'))
 					session.anton.handleMessage(msg.msg);
+				if(msg.hasOwnProperty('action')){
+					if(msg.action === "startAirLeak"){
+            session.ship.turnOffVentilation();
+          }
+        }
 			} else {
 				console.log("generating token");
 				ws.send(JSON.stringify({'token': sessions.getToken()}));

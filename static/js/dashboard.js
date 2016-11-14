@@ -4,7 +4,7 @@
   var AUTHENTICATED = 1;
   var passcode = "XIETSG"
 
-	$.fn.Dashboardify = function(username, onchatinput) {
+	$.fn.Dashboardify = function() {
 
     var state = UNAUTHENTICATED;
     var connectButton = $('.connectBtn');

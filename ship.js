@@ -5,9 +5,9 @@ var Ship = function(){
     'action': 'None'
   };
   this.ventilation = {
-    'state': "Air Leak Detected",
-    "status": "failing",
-    "action": "Engage the Ventilation System Lockdown Override",
+    'state': "Normal",
+    "status": "ok",
+    "action": "None",
     "metrics": {
       "airPressure": 1, //air pressure in atm
     }
