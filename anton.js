@@ -85,15 +85,21 @@ Anton.prototype.update = function(){
 };
 
 Anton.prototype.reactToAir = function(){
+  if(!this.isAlive)
+    return;
   var airPressure = this.ship.ventilation.metrics["airPressure"];
-  if(airPressure < .57)
+  if(airPressure < .57){
     this.die();
+  }
 
   // complain once for each category
   if(airPressure < 1 - .1*(this.airPressureComplaintIndex + 1)){
     this.session.send(air_complaints[this.airPressureComplaintIndex]);
-    this.airPressureComplaintIndex++;
+    this.airPressureComplaintIndex = Math.max(this.airPressureComplaintIndex + 1, 4);
     return;
+  }
+  if(airPressure > 1 - .1*(this.airPressureComplaintIndex)){
+    this.airPressureComplaintIndex = Math.min(Math.max(10 - Math.floor(airPressure*10) - 1, 0), 4);
   }
 }
 
