@@ -69,7 +69,7 @@ var Anton = function(session, ship){
   this.stage = 1;
 
   // nn properties
-  this.brain = new Architect.Perceptron(15,5,2);
+  this.brain = new Architect.Perceptron(9,5,2);
   this.train();
 
   session.send("Help! I've lost communication with my ground control!!");
@@ -117,18 +117,12 @@ Anton.prototype.train = function(){
   6 tone.sadness,
   7 tone.confident,
 
-  8 that.anger,   //anton's
-  9 that.disgust,
-  10that.fear,
-  11that.joy,
-  12that.sadness,
-  13that.confident,
-  14that.spirits,
-  15that.trust
+  8that.spirits,
+  9that.trust
 
   yield [spirits, trust]*/
   console.log("PRETRAIN");
-  console.log(this.brain.activate([1,0,0,0,1,0,1,0,0,0,1,0,1,1,1]));
+  console.log(this.brain.activate([1,0,0,0,1,0,1,1,1]));
   var trainer = new Trainer(this.brain, {
     rate: this.learning_rate,
     iterations: 2000,
@@ -139,43 +133,43 @@ Anton.prototype.train = function(){
 });
   var trainingSet = [
     {
-      input: [1,0,0,0,1, 0,1,0,0,0, 1,0,1,1,1],
+      input: [1,0,0,0,1, 0,1,1,1],
       output: [1,1]
     },
     {
-      input: [1,0,0,0,0,0,0,0,0,.5,.5,0,0,.5,.5],
+      input: [1,0,0,0,0,0,0,.5,.5],
       output: [1,1]
     },
     {
-      input: [0,0,0,1,1,0,0,0,0,1,1,0,0,1,1],
+      input: [0,0,0,1,1,0,0,1,1],
       output: [1,1]
     },
     {
-      input: [1,0,0,0,.5,0,0,0,0,.5,.5,0,.5,1,0],
+      input: [1,0,0,0,.5,0,0,1,0],
       output: [1,1]
     },
     {
-      input: [.5,0,0,.5,0, 0,0,0,0,.5, .5,0,.5,.5,.5],
+      input: [.5,0,0,.5,0, 0,0,.5,.5],
       output: [1,1]
     },
     {
-      input: [0,0,0,1,1,0,0,0,0,1,1,0,0,0,0],
+      input: [0,0,0,1,1,0,0,0,0],
       output: [1,1]
     },
     {
-      input: [0,1,1,1,0, 1,0,1,1,1, 0,1,0,0,0],
+      input: [0,1,1,1,0, 1,0,0,0],
       output: [-1,0]
     },
     {
-      input: [0,0,0,0,0, 0,1,0,0,0, 1,0,1,0,1],
+      input: [0,0,0,0,0, 0,1,0,1],
       output: [-1,1]
     },
     {
-      input: [0,1,1,1,0, 0,0,1,0,1, 0,1,1,0,0],
+      input: [0,1,1,1,0, 0,0,0,0],
       output: [1,0]
     },
     {
-      input: [0,1,0,0,0, 1,0,1,0,1, 0,0,0,0,0],
+      input: [0,1,0,0,0, 1,0,0,0],
       output: [-1,0]
     }
   ];
@@ -183,7 +177,7 @@ Anton.prototype.train = function(){
   trainer.train(trainingSet);
 
   console.log("TRAINED");
-  console.log(this.brain.activate([1,0,0,0,1,0,1,0,0,0,1,0,1,1,1]));
+  console.log(this.brain.activate([1,0,0,0,1,0,1,1,1]));
 };
 
 Anton.prototype.handleMessage = function(message, callback){
@@ -224,12 +218,6 @@ Anton.prototype.handleMessage = function(message, callback){
       tone.joy,
       tone.sadness,
       tone.confident,
-      that.anger,   //anton's
-      that.disgust,
-      that.fear,
-      that.joy,
-      that.sadness,
-      that.confident,
       (that.spirits + 1)/2,
       that.trust
     ];
