@@ -29,10 +29,16 @@ app.ws('/ws', function(ws, req) {
 					session.anton.handleMessage(msg.msg);
 				if(msg.hasOwnProperty('action')){
 					if(msg.action === "startAirLeak"){
-            session.ship.turnOffVentilation();
-            session.setStartTime(new Date());
-          }
-        }
+						setTimeout(function(){
+							session.ship.turnOffVentilation();
+							session.ship.ventilation.metrics.airPressure = .925;
+							session.setStartTime(new Date());
+							setTimeout(function(){
+								session.send("What was that?!  The ship just shook!");
+							}, 2000);
+						}, 3000);
+					  }
+					}
 			} else {
 				console.log("generating token");
 				ws.send(JSON.stringify({'token': sessions.getToken()}));

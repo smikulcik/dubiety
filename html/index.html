@@ -81,7 +81,9 @@
 	<script>
 
 		var dashboard = $('.dashboard');
-		dashboard.Dashboardify();
+		dashboard.Dashboardify(function(){
+			startAirLeak();
+		});
 		var getwsurl = function(path){
 			var loc = window.location, new_uri;
 			if (loc.protocol === "https:") {
@@ -164,7 +166,6 @@
 			$('.main').show();
 			setTimeout(function(){chat.Chat.receiveMsg("Is anyone there?", "Anton");},500);
 			setTimeout(function(){chat.Chat.receiveMsg("Can you hear me?", "Anton");},2000);
-			setTimeout(startAirLeak, 20000); //after 20s, start air leak
 		};
 
 		var startEnding = function(didWin){

@@ -4,7 +4,7 @@
   var AUTHENTICATED = 1;
   var passcode = "XIETSG"
 
-	$.fn.Dashboardify = function() {
+	$.fn.Dashboardify = function(onlogin) {
 
     var state = UNAUTHENTICATED;
     var isActive = true;
@@ -53,9 +53,11 @@
 
 		connectButton.click(function(event){
 			event.preventDefault();
-      if(passcodeInput.val().trim().toUpperCase() === passcode){
+      if(passcodeInput.val().trim().toUpperCase() === passcode && state !== AUTHENTICATED){
         state = AUTHENTICATED;
         updateState();
+        if(onlogin !== undefined)
+          onlogin();
       }
 		});
 
