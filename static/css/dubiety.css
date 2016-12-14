@@ -71,18 +71,29 @@ body {
 	height: 540px;
 }
 .intro .text {
-	padding: 20px;
 	width: 700px;
- 	background-color: #e5e5e5;
-	box-shadow: -5px 5px #da3835;
 	font-size: 30px;
 	min-height: 125px;
+}
+
+.msgbox {
+	padding: 20px;
+	background-color: #e5e5e5;
+	box-shadow: -5px 5px #da3835;
 }
 
 .intro button.introNext {
 	position: absolute;
 	bottom: 30px;
 	right: 30px;
+}
+
+.intro button.skiptutorial {
+	position: absolute;
+	bottom: 30px;
+	left: 30px;
+	font-style: italic;
+	background-color: #999;
 }
 
 .ending {
@@ -105,8 +116,37 @@ body {
 	font-size: 22px;
 }
 
+.credits .playGameBtn {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	font-weight: bold;
+}
+
 .credits u{
 	font-weight: bold;
+}
+
+.credits .creditTitle {
+	font-size: 60px;
+	text-align: center;
+	width: 200px;
+	margin: auto;
+}
+.credits p {
+	margin: 5px;
+}
+.creditPeople {
+	padding: 30px;
+	background-color: #063443;
+	color: white;
+	position: absolute;
+	right: 0px;
+	top: 220px;
+	left: 0px;
+	bottom: 0px;
+	border-top: 5px solid #e5e5e5;
 }
 
 button {

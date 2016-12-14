@@ -9,12 +9,31 @@
 <body>
 	<h1 class='title'>Dubiety</h1>
 	<div class=game>
+		<div class='credits'>
+				<h1 class='msgbox creditTitle'>Dubiety</h1>
+				<button class='playGameBtn'>Play Game</button>
+				<div class='creditPeople'>
+					<p><u>Concept, Design, Coding, and Graphics</u></p>
+					<p>Simon Mikulcik</p>
+					<p><u>Project Mentor</u></p>
+					<p>Dr. George Landon</p>
+					<p><u>Special Thanks</u></p>
+					<p>Dr. Ka-Wing Wong and the Eastern Kentucky University Computer Science Department</p>
+					<p>Dr. David Coleman and Eastern Kentucky University Honors Program</p>
+					<br>
+					<i>
+						This game was developed in partial fulfillment of the requirements for
+						the Honors Thesis Project at Eastern Kentucky University
+					</i>
+				</div>
+		</div>
 		<div class=intro>
 			<h1><i>Space Exploration Team</i></h1>
-			<div class='text'>
+			<div class='text msgbox'>
 				Space Exploration Team: <i>Paving the Frontier to Success</i>
 			</div>
 			<button class=introNext>Next</button>
+			<button class=skipTutorial>Skip Tutorial</button>
 		</div>
 		<table class=main><tr>
 			<td><div class='chat redOutline'></div></td>
@@ -60,22 +79,7 @@
 
 		<div class='ending'>
 			<span class=msg></span><br>
-			<button class=showCreditsBtn>Ok</button>
-		</div>
-		<div class='credits'>
-				<h1>Credits</h1>
-				<p><u>Concept, Design, Coding, and Graphics</u></p>
-				<p>Simon Mikulcik</p>
-				<p><u>Project Mentor</u></p>
-				<p>Dr. George Landon</p>
-				<p><u>Special Thanks</u></p>
-				<p>Dr. Ka-Wing Wong and the Eastern Kentucky University Computer Science Department</p>
-				<p>Dr. David Coleman and Eastern Kentucky University Honors Program</p>
-				<br>
-				<i>
-					This game was developed in partial fulfillment of the requirements for
-					the Honors Thesis Project at Eastern Kentucky University
-				</i>
+			<button>Ok</button>
 		</div>
 	</div>
 	<script>
@@ -255,6 +259,14 @@
 		};
 
 		$('.main').hide();
+		$('.intro').hide();
+		$('.credits').show();
+
+		$('.credits .playGameBtn').click(function(){
+			$('.intro').show();
+			$('.credits').hide();
+		});
+
 		$('.intro button.introNext').text("Begin Training");
 
 		$('.intro button.introNext').click(function(){
@@ -269,9 +281,12 @@
 			}
 		});
 
+		$('.intro button.skiptutorial').click(function(){
+			startMain();
+		});
+
 		$('.ending button').click(function(){
-			$('.ending').hide();
-			$('.credits').show();
+			location.reload();
 		});
 		</script>
 </body>
